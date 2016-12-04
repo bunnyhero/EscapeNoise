@@ -17,9 +17,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        setUpPlayer()
-        startMonitoring()
+
+        let options = NSDictionary(object: kCFBooleanTrue,
+                                   forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
+        if AXIsProcessTrustedWithOptions(options) {
+            setUpPlayer()
+            startMonitoring()
+        }
+        else {
+            checkPermissionsTillAccepted()
+        }
     }
+
 
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -27,7 +36,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
-
+    func checkPermissionsTillAccepted() {
+        let options = NSDictionary(object: kCFBooleanFalse,
+                                   forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
+        if AXIsProcessTrustedWithOptions(options) {
+            //  relaunch!
+            Process.launchedProcess(launchPath: "/bin/sh",
+                                    arguments: ["-c", "sleep 3; /usr/bin/open '\(Bundle.main.bundlePath)'"])
+            NSApplication.shared().terminate(self)
+        }
+        else {
+            //  check again in 3 seconds
+            perform(#selector(AppDelegate.checkPermissionsTillAccepted), with: nil, afterDelay: 3.0)
+        }
+    }
 
     func setUpPlayer() {
         guard let clickUrl = Bundle.main.url(forResource: "click", withExtension: "aiff") else {
