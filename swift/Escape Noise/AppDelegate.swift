@@ -119,7 +119,9 @@ func handleCGEvent(proxy: OpaquePointer, type: CGEventType, eventRef: CGEvent,
             if let refcon = refcon {
                 //  converting these unsafe raw pointers to swift objects is ugly!
                 let audioPlayerPtr = refcon.assumingMemoryBound(to: AVAudioPlayer.self)
-                audioPlayerPtr.pointee.play()
+                let audioPlayer = audioPlayerPtr.pointee
+                audioPlayer.currentTime = 0 //  restart sound if it was playing
+                audioPlayer.play()
             }
         }
     }
