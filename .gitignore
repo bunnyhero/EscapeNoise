@@ -1,0 +1,29 @@
+#### project-specific
+
+objective-c/
+
+#### bunnyhero convention
+
+releases/
+
+#### mac
+
+.DS_Store
+
+#### xcode
+
+*.swp
+*~.nib
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+xcuserdata
+
+# NB: also, whitelist the default ones, some projects need to use these
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
