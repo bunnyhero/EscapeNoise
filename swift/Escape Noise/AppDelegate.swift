@@ -2,8 +2,25 @@
 //  AppDelegate.swift
 //  Escape Noise
 //
-//  Created by bunnyhero on 2016-12-03.
-//  Copyright © 2016 bunnyhero labs. All rights reserved.
+//  The MIT License (MIT) Copyright (c) 2016 bunnyhero labs
+
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import AVFoundation
@@ -20,6 +37,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let options = NSDictionary(object: kCFBooleanTrue,
                                    forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
+        
+        //  We need permission to listen to keyboard events
+        
         if AXIsProcessTrustedWithOptions(options) {
             setUpPlayer()
             startMonitoring()
@@ -36,7 +56,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
+    
     func checkPermissionsTillAccepted() {
+        //  This method of polling for permission, then automatically relaunching when granted, is
+        //  from here: http://stackoverflow.com/a/35714641/107980
+        
         let options = NSDictionary(object: kCFBooleanFalse,
                                    forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
         if AXIsProcessTrustedWithOptions(options) {
@@ -46,11 +70,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApplication.shared().terminate(self)
         }
         else {
-            //  check again in 3 seconds
-            perform(#selector(AppDelegate.checkPermissionsTillAccepted), with: nil, afterDelay: 3.0)
+            //  check again in 1 second
+            perform(#selector(AppDelegate.checkPermissionsTillAccepted), with: nil, afterDelay: 1.0)
         }
     }
 
+    
     func setUpPlayer() {
         guard let clickUrl = Bundle.main.url(forResource: "click", withExtension: "aiff") else {
             print("Could not get click audio file")
@@ -90,8 +115,9 @@ func handleCGEvent(proxy: OpaquePointer, type: CGEventType, eventRef: CGEvent,
     
     if type == .keyDown {
         let keycode = eventRef.getIntegerValueField(.keyboardEventKeycode)
-        if keycode == 53 {
+        if keycode == 53 {  //  should use a constant here. this is the ESC keyCode on my computer
             if let refcon = refcon {
+                //  converting these unsafe raw pointers to swift objects is ugly!
                 let audioPlayerPtr = refcon.assumingMemoryBound(to: AVAudioPlayer.self)
                 audioPlayerPtr.pointee.play()
             }
@@ -99,4 +125,6 @@ func handleCGEvent(proxy: OpaquePointer, type: CGEventType, eventRef: CGEvent,
     }
     return Unmanaged<CGEvent>.passUnretained(eventRef)
 }
+
+
 
