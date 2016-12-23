@@ -32,9 +32,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var clickPlayer:AVAudioPlayer!
 
+    @IBOutlet weak var statusMenu: NSMenu!
+    var statusItem: NSStatusItem!
+    
+    var windowController: NSWindowController!
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 
+        UserDefaults.standard.register(defaults: ["volume": 1.0])
+        
+        let statusBar = NSStatusBar.system()
+        statusItem = statusBar.statusItem(withLength: NSSquareStatusItemLength)
+        statusItem.menu = statusMenu
+        statusItem.image = NSImage(named: "icon-Template")
+        
+        windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "prefswindow") as! NSWindowController
+        
         let options = NSDictionary(object: kCFBooleanTrue,
                                    forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
         
@@ -42,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if AXIsProcessTrustedWithOptions(options) {
             setUpPlayer()
-            startMonitoring()
+            startMonitoringKeyEvents()
         }
         else {
             checkPermissionsTillAccepted()
@@ -85,16 +99,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try clickPlayer = AVAudioPlayer(contentsOf: clickUrl)
             clickPlayer.prepareToPlay()
-            print("Created and prepared AVAudioPlayer")
+            clickPlayer.volume = UserDefaults.standard.float(forKey: "volume")
+            NSLog("Created and prepared AVAudioPlayer")
+            
+            //  listen for volume setting changes
+            clickPlayer.bind("volume", to: NSUserDefaultsController.shared(), withKeyPath: "values.volume", options: nil)
         }
         catch {
             clickPlayer = nil
-            print("Could not create AVAudioPlayer")
+            NSLog("Could not create AVAudioPlayer")
         }
     }
     
-    
-    func startMonitoring() {
+    func startMonitoringKeyEvents() {
         let eventMask = (1 << CGEventType.keyDown.rawValue)
         if let eventTap = CGEvent.tapCreate(tap: .cghidEventTap,
                                          place: .headInsertEventTap,
@@ -104,6 +121,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, .commonModes)
             CGEvent.tapEnable(tap: eventTap, enable: true)
         }
+    }
+
+    @IBAction func openPrefs(_ sender: Any) {
+        windowController.showWindow(sender)
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -654,10 +655,88 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Escape_Noise" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Escape_Noise" customModuleProvider="target">
+                    <connections>
+                        <outlet property="statusMenu" destination="g5a-gM-vWQ" id="0LH-V0-cpN"/>
+                    </connections>
+                </customObject>
+                <menu id="g5a-gM-vWQ">
+                    <items>
+                        <menuItem title="Preferences…" id="k59-yj-fPG">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openPrefs:" target="Voe-Tx-rLC" id="4Iv-iW-5PF"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="lVd-xV-bFg"/>
+                        <menuItem title="Quit Escape Noise" id="rDa-5N-G3e">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="terminate:" target="Ady-hI-5gd" id="WUq-Z2-lLZ"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="5bi-C8-5Lw">
+            <objects>
+                <windowController storyboardIdentifier="prefswindow" id="Y1H-ZL-3D1" sceneMemberID="viewController">
+                    <window key="window" title="Escape Noise Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="t4j-io-Fxu">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+                    </window>
+                    <connections>
+                        <segue destination="SyU-ln-daP" kind="relationship" relationship="window.shadowedContentViewController" id="iej-Jf-3L3"/>
+                    </connections>
+                </windowController>
+                <customObject id="01Y-5y-CnG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="60" y="341"/>
+        </scene>
+        <!--Prefs View Controller-->
+        <scene sceneID="CGe-7H-fGB">
+            <objects>
+                <viewController id="SyU-ln-daP" customClass="PrefsViewController" customModule="Escape_Noise" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="aNo-Mn-gpq">
+                        <rect key="frame" x="0.0" y="0.0" width="269" height="57"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D8m-wA-GjP">
+                                <rect key="frame" x="18" y="20" width="49" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volume" id="nuX-Ln-8Ys">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Bn-AN-aS6">
+                                <rect key="frame" x="86" y="19" width="165" height="19"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="1" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="3rl-oe-2p9"/>
+                                <connections>
+                                    <action selector="volumeSliderChanged:" target="SyU-ln-daP" id="yd2-Zt-Su4"/>
+                                    <binding destination="0rk-gY-noh" name="value" keyPath="values.volume" id="hRO-vu-k3K"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="D8m-wA-GjP" firstAttribute="centerY" secondItem="aNo-Mn-gpq" secondAttribute="centerY" id="Nin-kD-aoZ"/>
+                            <constraint firstItem="1Bn-AN-aS6" firstAttribute="leading" secondItem="D8m-wA-GjP" secondAttribute="trailing" constant="23" id="a9m-yn-qjB"/>
+                            <constraint firstItem="1Bn-AN-aS6" firstAttribute="centerY" secondItem="aNo-Mn-gpq" secondAttribute="centerY" id="cIB-eo-7kg"/>
+                            <constraint firstAttribute="trailing" secondItem="1Bn-AN-aS6" secondAttribute="trailing" constant="20" id="iDd-2i-LtU"/>
+                            <constraint firstItem="D8m-wA-GjP" firstAttribute="leading" secondItem="aNo-Mn-gpq" secondAttribute="leading" constant="20" id="sbR-xF-J04"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="cgH-UB-8Ks" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="0rk-gY-noh"/>
+            </objects>
+            <point key="canvasLocation" x="661.5" y="209.5"/>
         </scene>
     </scenes>
 </document>
