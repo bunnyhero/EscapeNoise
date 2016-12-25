@@ -92,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func setUpPlayer() {
         guard let clickUrl = Bundle.main.url(forResource: "click", withExtension: "aiff") else {
-            print("Could not get click audio file")
+            NSLog("Could not get click audio file")
             return
         }
 
