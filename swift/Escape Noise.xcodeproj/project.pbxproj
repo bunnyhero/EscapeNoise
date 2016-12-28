@@ -17,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3958A9E11E135DCD0038D253 /* Escape Noise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Escape Noise.entitlements"; sourceTree = "<group>"; };
 		39C0FCF01DF376CD00CA047F /* Escape Noise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Escape Noise.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39C0FCF31DF376CD00CA047F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		39C0FCF71DF376CD00CA047F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +59,7 @@
 		39C0FCF21DF376CD00CA047F /* Escape Noise */ = {
 			isa = PBXGroup;
 			children = (
+				3958A9E11E135DCD0038D253 /* Escape Noise.entitlements */,
 				39C0FCF31DF376CD00CA047F /* AppDelegate.swift */,
 				39E237801E0E14A30058B366 /* PrefsViewController.swift */,
 				39C0FCF71DF376CD00CA047F /* Assets.xcassets */,
@@ -104,6 +106,11 @@
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = WSMX4A5QR7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -260,6 +267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Escape Noise/Escape Noise.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = WSMX4A5QR7;
@@ -275,6 +283,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Escape Noise/Escape Noise.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = WSMX4A5QR7;
