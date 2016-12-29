@@ -15,16 +15,15 @@ the lower-level APIs such as `CGEvent.tapCreate()`.
 
 It works for me, but:
 
-- it lacks any sort of UI (or even an app icon!) the sound file is hard-coded
+- the sound file is hard-coded
 - the keycode it responds to is hard-coded
 
 ## To Do
 
 - Preferences:
   - Audio file
-  - Audio volume
+  - ~~Audio volume~~
   - Start at login
-- Menu bar status item rather than sitting in the Dock
-- App icon
+- ~~Menu bar status item rather than sitting in the Dock~~
+- ~~App icon~~
 - A better name
-
