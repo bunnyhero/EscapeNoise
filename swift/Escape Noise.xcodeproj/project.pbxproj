@@ -59,7 +59,6 @@
 		39C0FCF21DF376CD00CA047F /* Escape Noise */ = {
 			isa = PBXGroup;
 			children = (
-				3958A9E11E135DCD0038D253 /* Escape Noise.entitlements */,
 				39C0FCF31DF376CD00CA047F /* AppDelegate.swift */,
 				39E237801E0E14A30058B366 /* PrefsViewController.swift */,
 				39C0FCF71DF376CD00CA047F /* Assets.xcassets */,
@@ -68,6 +67,7 @@
 				39C0FD021DF3922000CA047F /* click.aiff */,
 				39E2377C1E0DD2F30058B366 /* icon-Template.png */,
 				39E2377D1E0DD2F30058B366 /* icon-Template@2x.png */,
+				3958A9E11E135DCD0038D253 /* Escape Noise.entitlements */,
 			);
 			path = "Escape Noise";
 			sourceTree = "<group>";
@@ -193,7 +193,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -243,7 +243,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -273,7 +273,7 @@
 				DEVELOPMENT_TEAM = WSMX4A5QR7;
 				INFOPLIST_FILE = "Escape Noise/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "BHL.Escape-Noise";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bunnyherolabs.Escape-Noise";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -289,7 +289,7 @@
 				DEVELOPMENT_TEAM = WSMX4A5QR7;
 				INFOPLIST_FILE = "Escape Noise/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "BHL.Escape-Noise";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bunnyherolabs.Escape-Noise";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
