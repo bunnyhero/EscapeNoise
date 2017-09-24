@@ -37,17 +37,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var windowController: NSWindowController!
     
+    let statusItemImageName = NSImage.Name(rawValue: "icon-Template")
+    let mainStoryboardName = NSStoryboard.Name(rawValue: "Main")
+    let prefsWindowSceneId = NSStoryboard.SceneIdentifier(rawValue: "prefswindow")
+    let clickSoundName = "click"
+    let volumeBindingName = NSBindingName(rawValue: "volume")
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 
         UserDefaults.standard.register(defaults: ["volume": 1.0])
         
-        let statusBar = NSStatusBar.system()
-        statusItem = statusBar.statusItem(withLength: NSSquareStatusItemLength)
+        let statusBar = NSStatusBar.system
+        statusItem = statusBar.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.menu = statusMenu
-        statusItem.image = NSImage(named: "icon-Template")
+        statusItem.image = NSImage(named: statusItemImageName)
         
-        windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "prefswindow") as! NSWindowController
+        windowController = NSStoryboard(name: mainStoryboardName, bundle: nil).instantiateController(withIdentifier: prefsWindowSceneId) as! NSWindowController
         
         let options = NSDictionary(object: kCFBooleanTrue,
                                    forKey: kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString) as CFDictionary
@@ -71,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     
-    func checkPermissionsTillAccepted() {
+    @objc func checkPermissionsTillAccepted() {
         //  This method of polling for permission, then automatically relaunching when granted, is
         //  from here: http://stackoverflow.com/a/35714641/107980
         
@@ -81,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             //  relaunch!
             Process.launchedProcess(launchPath: "/bin/sh",
                                     arguments: ["-c", "sleep 3; /usr/bin/open '\(Bundle.main.bundlePath)'"])
-            NSApplication.shared().terminate(self)
+            NSApplication.shared.terminate(self)
         }
         else {
             //  check again in 1 second
@@ -91,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     
     func setUpPlayer() {
-        guard let clickUrl = Bundle.main.url(forResource: "click", withExtension: "aiff") else {
+        guard let clickUrl = Bundle.main.url(forResource: clickSoundName, withExtension: "aiff") else {
             NSLog("Could not get click audio file")
             return
         }
@@ -103,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSLog("Created and prepared AVAudioPlayer")
             
             //  listen for volume setting changes
-            clickPlayer.bind("volume", to: NSUserDefaultsController.shared(), withKeyPath: "values.volume", options: nil)
+            clickPlayer.bind(volumeBindingName, to: NSUserDefaultsController.shared, withKeyPath: "values.volume", options: nil)
         }
         catch {
             clickPlayer = nil
